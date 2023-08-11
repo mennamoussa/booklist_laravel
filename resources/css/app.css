@@ -1,0 +1,19 @@
+body {
+    background-color: rgb(228, 150, 228);
+}
+.col-md-3 .list-group-item.active {
+    background-color: purple;
+    color: #fff;
+}
+
+.col-md-3 .list-group-item {
+    background-color: #e9ecef;
+}
+
+.col-md-3 .list-group-item a {
+    color: rgb(226, 120, 226);
+}
+
+.col-md-3 .list-group-item a:hover {
+    color: rgb(151, 51, 151);
+}
