@@ -27,6 +27,7 @@
                     <a class="nav-link" href="#">Settings</a>
                 </li>
             </ul>
+            
         </div>
     </nav>
 

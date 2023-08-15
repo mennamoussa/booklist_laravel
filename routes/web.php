@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request; // Import the Request class
+use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Http\Controllers\BookController;
 
@@ -21,12 +21,18 @@ Route::get('/', function () {
 });
 
 // create route /profile
-Route::get('/books', [BookController::class, 'index'])->name('books');
+Route::middleware(['auth', 'check-age'])->group(function () {
+    Route::get('/books', [BookController::class, 'index'])->name('books');
 
-Route::post('/create-book', [BookController::class, 'create']);
+    Route::post('/create-book', [BookController::class, 'create']);
+    
+    Route::get('/create-book', [BookController::class, 'show'])->name('create-book');
+    
+    Route::get('/books/{book}', [BookController::class, 'show_book'])->name('books-details');
+    
+    Route::delete('/books/{book}', [BookController::class, 'delete'])->name('delete');    
+});
 
-Route::get('/create-book', [BookController::class, 'show'])->name('create-book');
+Auth::routes();
 
-Route::get('/books/{book}', [BookController::class, 'show_book'])->name('books-details');
-
-Route::delete('/books/{book}', [BookController::class, 'delete'])->name('delete');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

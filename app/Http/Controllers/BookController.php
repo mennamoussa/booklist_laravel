@@ -3,29 +3,38 @@
 namespace App\Http\Controllers;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Http\Requests\CreateBookRequest;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
     public function index(){
+        //dd(Auth::user());
         $books = Book::orderBy('id', 'desc')->paginate(5);
         $page = "books";
         return view('books', [
             "page" => $page,
             "books" => $books
-        ]); //resource/views/''
+        ]);
     }
 
     public function show (){
         $page = "create book";
-        return view('create-book', ['page' => $page]);
+        $categories = Category::all();
+        return view('create-book', ['page' => $page, 'categories' => $categories]);
     }
 
-    public function create(Request $request){
+    public function create(CreateBookRequest $request){
+        //dd($request->all());
+        //dd($request->file('pic'));
+        $fileName = Book::uploadFile($request, $request->pic);
         Book::create([
             "title" => $request->title,
             "price" => $request->price,
-            "description" => $request->description
-            //"pic" => "test.png"
+            "description" => $request->description,
+            "cat_id" => $request->category,
+            "pic" => $fileName
         ]);
         return redirect()->route('books');
     }
